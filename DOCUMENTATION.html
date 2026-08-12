@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mini ERP + CRM Portal — Executive Summary & Documentation</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+    
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-sub: #475569;
+      --border: #e2e8f0;
+      --success: #16a34a;
+      --success-bg: #f0fdf4;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      color: var(--text-main);
+      line-height: 1.6;
+      background: var(--bg);
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 48px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+    }
+
+    @media print {
+      body { background: #ffffff; padding: 0; }
+      .container { border: none; box-shadow: none; padding: 0; max-width: 100%; }
+      .no-print { display: none !important; }
+      .page-break { page-break-before: always; }
+    }
+
+    /* HEADER */
+    .header {
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 24px;
+      margin-bottom: 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .header-title h1 {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.5px;
+    }
+
+    .header-title p {
+      font-size: 14px;
+      color: var(--primary);
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    .badge-live {
+      background: #dcfce7;
+      color: #15803d;
+      padding: 6px 14px;
+      border-radius: 50px;
+      font-size: 12px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .badge-live::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: #16a34a;
+      border-radius: 50%;
+    }
+
+    /* QUICK LINKS CARD */
+    .links-box {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 32px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .link-item label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #3b82f6;
+      letter-spacing: 0.5px;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .link-item a {
+      color: #1d4ed8;
+      font-weight: 600;
+      font-size: 14px;
+      text-decoration: none;
+      word-break: break-all;
+    }
+
+    .link-item a:hover { text-decoration: underline; }
+
+    /* SECTIONS */
+    .section {
+      margin-bottom: 36px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-title span {
+      background: var(--primary);
+      color: #ffffff;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    p, li {
+      font-size: 14px;
+      color: var(--text-sub);
+      line-height: 1.6;
+    }
+
+    ul { padding-left: 20px; margin-bottom: 12px; }
+    li { margin-bottom: 6px; }
+
+    /* CREDENTIALS BOX */
+    .creds-box {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 16px 0;
+    }
+
+    .creds-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .cred-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      padding: 12px 16px;
+      border-radius: 8px;
+    }
+
+    .cred-card .role {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--primary);
+      text-transform: uppercase;
+    }
+
+    .cred-card .email {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--text-main);
+      margin: 2px 0;
+    }
+
+    .cred-card .desc {
+      font-size: 11.5px;
+      color: var(--text-sub);
+    }
+
+    /* TABLES */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0;
+      font-size: 13px;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 10px 14px;
+      text-align: left;
+    }
+
+    th {
+      background: #f1f5f9;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    /* FLOW STEPS */
+    .flow-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin: 16px 0;
+    }
+
+    .step-card {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      padding: 14px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .step-card .num {
+      background: var(--primary);
+      color: #fff;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      margin: 0 auto 8px;
+      font-size: 11px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .step-card h4 {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 4px;
+    }
+
+    .step-card p {
+      font-size: 11px;
+      color: var(--text-sub);
+      line-height: 1.4;
+    }
+
+    /* PRINT BUTTON */
+    .print-btn {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(37, 99, 235, 0.35);
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .print-btn:hover { background: var(--primary-dark); transform: translateY(-2px); }
+  </style>
+</head>
+<body>
+
+  <button class="print-btn no-print" onclick="window.print()">
+    🖨 Save / Download as PDF
+  </button>
+
+  <div class="container">
+
+    <!-- HEADER -->
+    <div class="header">
+      <div class="header-title">
+        <h1>Mini ERP + CRM Portal</h1>
+        <p>Full Stack Operations & Delivery Platform — Case Study Report</p>
+      </div>
+      <div class="badge-live">Live & Deployed</div>
+    </div>
+
+    <!-- QUICK LINKS -->
+    <div class="links-box">
+      <div class="link-item">
+        <label>🌐 Live Web Application</label>
+        <a href="https://mini-erp-crm-phi.vercel.app" target="_blank">https://mini-erp-crm-phi.vercel.app</a>
+      </div>
+      <div class="link-item">
+        <label>💻 GitHub Repository</label>
+        <a href="https://github.com/ganga216/mini-erp-crm" target="_blank">https://github.com/ganga216/mini-erp-crm</a>
+      </div>
+      <div class="link-item">
+        <label>⚡ Live REST API (Render)</label>
+        <a href="https://mini-erp-crm-backend-rf4i.onrender.com" target="_blank">https://mini-erp-crm-backend-rf4i.onrender.com</a>
+      </div>
+      <div class="link-item">
+        <label>👤 Developer</label>
+        <strong style="font-size: 14px; color: #0f172a;">Malla Gangadhar (ganga216)</strong>
+      </div>
+    </div>
+
+    <!-- SECTION 1: WHAT IT DOES -->
+    <div class="section">
+      <div class="section-title"><span>1</span> What is this Project?</div>
+      <p>This project is an internal management portal built for wholesale and distribution businesses. It helps companies easily manage <strong>customers</strong>, track <strong>product inventory</strong>, handle <strong>sales delivery challans</strong>, and follow up with leads in one clean interface.</p>
+    </div>
+
+    <!-- SECTION 2: TEST CREDENTIALS -->
+    <div class="section">
+      <div class="section-title"><span>2</span> Demo Login Accounts</div>
+      <p>You can test the application using any of the 4 role-based accounts below (Password for all accounts: <strong><code>password123</code></strong>):</p>
+
+      <div class="creds-box">
+        <div class="creds-grid">
+          <div class="cred-card">
+            <div class="role">👑 Admin User</div>
+            <div class="email">admin@erp.com</div>
+            <div class="desc">Full access to all features, editing & management</div>
+          </div>
+          <div class="cred-card">
+            <div class="role">💼 Sales User</div>
+            <div class="email">sales@erp.com</div>
+            <div class="desc">Customer CRM, follow-ups, creates sales challans</div>
+          </div>
+          <div class="cred-card">
+            <div class="role">📦 Warehouse User</div>
+            <div class="email">warehouse@erp.com</div>
+            <div class="desc">Product catalog, stock IN/OUT, confirms dispatches</div>
+          </div>
+          <div class="cred-card">
+            <div class="role">📊 Accounts User</div>
+            <div class="email">accounts@erp.com</div>
+            <div class="desc">Read-only access for auditing & financial checks</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 3: KEY BUSINESS FLOW -->
+    <div class="section">
+      <div class="section-title"><span>3</span> How the Core Business Flow Works</div>
+      <p>The system enforces real-world inventory dispatches with database accuracy:</p>
+
+      <div class="flow-steps">
+        <div class="step-card">
+          <div class="num">1</div>
+          <h4>Draft Challan</h4>
+          <p>Sales creates a draft delivery challan (`CH-0001`)</p>
+        </div>
+        <div class="step-card">
+          <div class="num">2</div>
+          <h4>Price Snapshot</h4>
+          <p>System locks price & SKU at the time of creation</p>
+        </div>
+        <div class="step-card">
+          <div class="num">3</div>
+          <h4>Stock Check</h4>
+          <p>Stock is checked before confirming delivery</p>
+        </div>
+        <div class="step-card">
+          <div class="num">4</div>
+          <h4>Auto Deduct</h4>
+          <p>Stock is atomically reduced upon confirmation</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 4: MODULE BREAKDOWN -->
+    <div class="section">
+      <div class="section-title"><span>4</span> Core Modules Included</div>
+      <ul>
+        <li><strong>Customer CRM Module:</strong> Search & filter customers (Lead/Active/Inactive, Retail/Wholesale/Distributor), view detail pages, and add follow-up notes.</li>
+        <li><strong>Product & Inventory Module:</strong> Manage catalog items, track minimum stock alerts (⚠ red indicators), and view stock IN/OUT audit logs.</li>
+        <li><strong>Sales Challan Module:</strong> Multi-step challan builder, draft saving, automatic stock deduction on confirmation, and stock restoration on cancellation.</li>
+        <li><strong>PDF Delivery Challan Export:</strong> Clean printable delivery notes via browser print (`Ctrl + P`).</li>
+      </ul>
+    </div>
+
+    <!-- SECTION 5: ROLE PERMISSIONS -->
+    <div class="section">
+      <div class="section-title"><span>5</span> Role Permissions Matrix</div>
+      <table>
+        <thead>
+          <tr>
+            <th>Module</th>
+            <th>Admin</th>
+            <th>Sales</th>
+            <th>Warehouse</th>
+            <th>Accounts</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Customers & Follow-ups</td>
+            <td>✅ Full Access</td>
+            <td>✅ Create / Edit</td>
+            <td>👁 Read Only</td>
+            <td>👁 Read Only</td>
+          </tr>
+          <tr>
+            <td>Products & Catalog</td>
+            <td>✅ Full Access</td>
+            <td>👁 Read Only</td>
+            <td>✅ Create / Edit</td>
+            <td>👁 Read Only</td>
+          </tr>
+          <tr>
+            <td>Stock Movements (IN/OUT)</td>
+            <td>✅ Full Access</td>
+            <td>👁 Read Only</td>
+            <td>✅ Record Movements</td>
+            <td>👁 Read Only</td>
+          </tr>
+          <tr>
+            <td>Challan Lifecycle</td>
+            <td>✅ Full Access</td>
+            <td>✅ Create / Confirm</td>
+            <td>✅ Create / Confirm</td>
+            <td>👁 Read Only</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SECTION 6: TECH STACK -->
+    <div class="section">
+      <div class="section-title"><span>6</span> Tech Stack Summary</div>
+      <table>
+        <thead>
+          <tr>
+            <th>Layer</th>
+            <th>Technology</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Frontend App</td><td>React 19, Vite 8, React Router v7</td></tr>
+          <tr><td>Styling</td><td>Custom Vanilla CSS3 (Responsive + Print Styles)</td></tr>
+          <tr><td>Backend API</td><td>Node.js, Express.js (REST APIs)</td></tr>
+          <tr><td>Database & ORM</td><td>PostgreSQL (Neon Serverless), Prisma ORM</td></tr>
+          <tr><td>Container & Hosting</td><td>Docker Compose, Vercel (Frontend), Render (Backend)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</body>
+</html>
