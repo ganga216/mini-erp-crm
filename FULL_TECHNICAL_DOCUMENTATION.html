@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mini ERP + CRM Operations Portal — Complete Technical & Production Documentation</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap');
+    
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --bg: #ffffff;
+      --surface: #f8fafc;
+      --text-main: #0f172a;
+      --text-sub: #475569;
+      --border: #cbd5e1;
+      --border-light: #e2e8f0;
+      --success: #16a34a;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      color: var(--text-main);
+      line-height: 1.6;
+      background: #f1f5f9;
+      padding: 40px 20px;
+    }
+
+    .doc-container {
+      max-width: 960px;
+      margin: 0 auto;
+      background: #ffffff;
+      border: 1px solid var(--border-light);
+      border-radius: 12px;
+      padding: 56px;
+      box-shadow: 0 4px 25px rgba(0,0,0,0.04);
+    }
+
+    @media print {
+      body { background: #ffffff; padding: 0; }
+      .doc-container { border: none; box-shadow: none; padding: 0; max-width: 100%; }
+      .no-print { display: none !important; }
+      .page-break { page-break-before: always; }
+    }
+
+    /* COVER & HEADER */
+    .doc-header {
+      border-bottom: 3px solid var(--primary);
+      padding-bottom: 24px;
+      margin-bottom: 32px;
+    }
+
+    .doc-header h1 {
+      font-size: 30px;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.5px;
+    }
+
+    .doc-header .subtitle {
+      font-size: 15px;
+      color: var(--primary);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 6px;
+    }
+
+    .doc-meta {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 36px;
+      font-size: 13.5px;
+    }
+
+    .doc-meta div strong { color: var(--text-main); }
+
+    /* TABLE OF CONTENTS / INDEX */
+    .toc-box {
+      background: #f0f9ff;
+      border: 1px solid #bae6fd;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 40px;
+    }
+
+    .toc-box h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #0369a1;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .toc-list {
+      list-style: none;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px 24px;
+    }
+
+    .toc-list li a {
+      color: #0284c7;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 13.5px;
+    }
+
+    .toc-list li a:hover { text-decoration: underline; }
+
+    /* SECTIONS */
+    .section {
+      margin-bottom: 44px;
+    }
+
+    h2 {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    h2 .sec-num {
+      color: var(--primary);
+    }
+
+    h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #334155;
+      margin-top: 24px;
+      margin-bottom: 10px;
+    }
+
+    p, li {
+      font-size: 14px;
+      color: var(--text-sub);
+      line-height: 1.65;
+    }
+
+    ul, ol { padding-left: 22px; margin-bottom: 14px; }
+    li { margin-bottom: 6px; }
+
+    /* CODE & SCHEMAS */
+    .code-block {
+      background: #0f172a;
+      color: #f8fafc;
+      font-family: 'Fira Code', monospace;
+      font-size: 12.5px;
+      padding: 20px;
+      border-radius: 10px;
+      overflow-x: auto;
+      margin: 16px 0;
+      line-height: 1.55;
+    }
+
+    /* TABLES */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 18px 0;
+      font-size: 13px;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 10px 14px;
+      text-align: left;
+    }
+
+    th {
+      background: #f1f5f9;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .badge-success { background: #dcfce7; color: #166534; }
+    .badge-primary { background: #dbeafe; color: #1e40af; }
+    .badge-warning { background: #fef3c7; color: #92400e; }
+
+    /* PROCESS STEPS */
+    .process-box {
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: 10px;
+      padding: 20px;
+      margin: 16px 0;
+    }
+
+    .process-step {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .process-step:last-child { margin-bottom: 0; }
+
+    .step-badge {
+      background: var(--primary);
+      color: #ffffff;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      font-weight: 800;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .step-content h4 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 4px;
+    }
+
+    .step-content p {
+      font-size: 13px;
+      margin-bottom: 0;
+    }
+
+    /* PRINT BUTTON */
+    .print-btn {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      box-shadow: 0 4px 18px rgba(37, 99, 235, 0.35);
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 999;
+    }
+
+    .print-btn:hover { background: var(--primary-dark); transform: translateY(-2px); }
+  </style>
+</head>
+<body>
+
+  <button class="print-btn no-print" onclick="window.print()">
+    🖨 Save / Download as PDF
+  </button>
+
+  <div class="doc-container">
+
+    <!-- COVER / HEADER -->
+    <div class="doc-header">
+      <h1>Mini ERP + CRM Operations Portal</h1>
+      <div class="subtitle">Complete System Architecture, Process & Production Specification</div>
+    </div>
+
+    <!-- DOCUMENT METADATA -->
+    <div class="doc-meta">
+      <div><strong>Project Title:</strong> Wholesale & Distribution Mini ERP + CRM</div>
+      <div><strong>Developer:</strong> Malla Gangadhar (ganga216)</div>
+      <div><strong>Frontend URL:</strong> <a href="https://mini-erp-crm-phi.vercel.app">https://mini-erp-crm-phi.vercel.app</a></div>
+      <div><strong>Backend API:</strong> <a href="https://mini-erp-crm-backend-rf4i.onrender.com">https://mini-erp-crm-backend-rf4i.onrender.com</a></div>
+      <div><strong>GitHub Repo:</strong> <a href="https://github.com/ganga216/mini-erp-crm">https://github.com/ganga216/mini-erp-crm</a></div>
+      <div><strong>Database:</strong> PostgreSQL (Neon Cloud)</div>
+    </div>
+
+    <!-- TABLE OF CONTENTS / INDEX -->
+    <div class="toc-box">
+      <h3>📑 Document Index (Table of Contents)</h3>
+      <ol class="toc-list">
+        <li><a href="#sec1">1. Business Context & System Overview</a></li>
+        <li><a href="#sec2">2. Architecture & Technology Stack</a></li>
+        <li><a href="#sec3">3. Database Schema & Data Models</a></li>
+        <li><a href="#sec4">4. Business Processes & Operational Workflows</a></li>
+        <li><a href="#sec5">5. Role-Based Access Control (RBAC) Matrix</a></li>
+        <li><a href="#sec6">6. Complete REST API Specifications</a></li>
+        <li><a href="#sec7">7. Production Deployment & Cloud Infrastructure</a></li>
+        <li><a href="#sec8">8. Test Credentials & Demo Accounts</a></li>
+        <li><a href="#sec9">9. Assumptions & Technical Constraints</a></li>
+      </ol>
+    </div>
+
+    <!-- SECTION 1: BUSINESS CONTEXT -->
+    <div class="section" id="sec1">
+      <h2><span class="sec-num">1.</span> Business Context & System Overview</h2>
+      <p>The <strong>Mini ERP + CRM Operations Portal</strong> is a centralized business management platform tailored for wholesale distributors and manufacturing suppliers. It unifies operations across sales, warehouse inventory, and accounts into a single real-time workflow.</p>
+      
+      <h3>Core Business Value Delivered:</h3>
+      <ul>
+        <li><strong>Automated Inventory Integrity:</strong> Sales dispatches automatically update inventory levels with zero manual calculation errors.</li>
+        <li><strong>Financial Audit Trail:</strong> Delivery challans capture exact product prices at creation time, preserving historical record accuracy even if product catalog prices change later.</li>
+        <li><strong>Proactive Low-Stock Management:</strong> Automated minimum stock threshold tracking flags items requiring immediate reordering.</li>
+        <li><strong>Multidisciplinary Security:</strong> Strict role-based permissions safeguard sensitive business operations (e.g. preventing sales staff from altering inventory stock counts directly).</li>
+      </ul>
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- SECTION 2: ARCHITECTURE -->
+    <div class="section" id="sec2">
+      <h2><span class="sec-num">2.</span> System Architecture & Technology Stack</h2>
+      <p>The system follows a modern decoupled Client-Server architecture with a REST API backend and a single-page Application (SPA) frontend.</p>
+      
+      <div class="code-block">
++-------------------------------------------------------------------------+
+|                            CLIENT LAYER                                 |
+|  React 19 SPA (Vercel CDN) ---> Axios Interceptors ---> Bearer JWT Auth |
++------------------------------------+------------------------------------+
+                                     | HTTPS / REST APIs
++------------------------------------v------------------------------------+
+|                            SERVER LAYER                                 |
+|  Node.js / Express API (Render) ---> CORS & Security Middleware         |
+|                                 ---> Role Authorization Middleware      |
+|                                 ---> Prisma ORM Data Access Layer       |
++------------------------------------+------------------------------------+
+                                     | Encrypted Database Connection
++------------------------------------v------------------------------------+
+|                           DATABASE LAYER                                |
+|             PostgreSQL 15 Serverless Database (Neon Cloud)               |
++-------------------------------------------------------------------------+
+      </div>
+
+      <h3>Technology Stack Specifications:</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Layer</th>
+            <th>Technology Selected</th>
+            <th>Description & Key Libraries</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Frontend</strong></td>
+            <td>React 19, Vite 8, React Router v7</td>
+            <td>Single Page Application architecture with client-side state routing and responsive component layouts.</td>
+          </tr>
+          <tr>
+            <td><strong>Styling</strong></td>
+            <td>Vanilla CSS3 System</td>
+            <td>Custom CSS variables design system with zero external UI framework overhead + `@media print` rules for PDF invoices.</td>
+          </tr>
+          <tr>
+            <td><strong>Backend API</strong></td>
+            <td>Node.js, Express.js</td>
+            <td>REST API web server with asynchronous error handling wrappers and bcrypt password hashing.</td>
+          </tr>
+          <tr>
+            <td><strong>Database & ORM</strong></td>
+            <td>PostgreSQL, Prisma ORM</td>
+            <td>Relational data layer utilizing Prisma client with `@prisma/adapter-pg` driver for Neon serverless postgres.</td>
+          </tr>
+          <tr>
+            <td><strong>Hosting Platform</strong></td>
+            <td>Vercel (Frontend), Render (Backend)</td>
+            <td>Fully automated deployment pipeline with zero-downtime builds and automatic SSL certificate generation.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SECTION 3: DATABASE SCHEMA -->
+    <div class="section" id="sec3">
+      <h2><span class="sec-num">3.</span> Database Schema & Data Models</h2>
+      <p>The database relational model is built using Prisma ORM with strict constraint enforcement and indexing.</p>
+
+      <div class="code-block">
+User (id, name, email, passwordHash, role, createdAt, updatedAt)
+  └─ role Enum: [ADMIN, SALES, WAREHOUSE, ACCOUNTS]
+
+Customer (id, customerName, mobile, email, businessName, gstNumber, customerType, address, status, followUpDate, notes, createdAt)
+  ├─ customerType Enum: [RETAIL, WHOLESALE, DISTRIBUTOR]
+  ├─ status Enum: [LEAD, ACTIVE, INACTIVE]
+  ├─ Has Many: FollowUp[]
+  └─ Has Many: Challan[]
+
+Product (id, name, sku, category, unitPrice, currentStock, minimumStock, warehouseLocation, createdAt)
+  ├─ Has Many: StockMovement[]
+  └─ Has Many: ChallanItem[]
+
+StockMovement (id, productId, quantity, movementType, reason, createdBy, createdAt)
+  ├─ movementType Enum: [IN, OUT]
+  └─ Belongs To: Product
+
+Challan (id, challanNumber, customerId, totalQuantity, status, createdBy, createdAt)
+  ├─ status Enum: [DRAFT, CONFIRMED, CANCELLED]
+  ├─ Belongs To: Customer
+  └─ Has Many: ChallanItem[]
+
+ChallanItem (id, challanId, productId, productNameSnapshot, skuSnapshot, unitPriceSnapshot, quantity, totalPrice)
+  ├─ Belongs To: Challan
+  └─ Belongs To: Product
+      </div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- SECTION 4: PROCESSES & WORKFLOWS -->
+    <div class="section" id="sec4">
+      <h2><span class="sec-num">4.</span> Business Processes & Operational Workflows</h2>
+      
+      <h3>A. Sales Delivery Challan Lifecycle:</h3>
+      <div class="process-box">
+        <div class="process-step">
+          <div class="step-badge">1</div>
+          <div class="step-content">
+            <h4>Draft Creation & Number Generation</h4>
+            <p>Sales user selects a customer and creates a draft. The system automatically assigns the next sequential challan number (`CH-0001`, `CH-0002`).</p>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-badge">2</div>
+          <div class="step-content">
+            <h4>Line Item Attachment & Historical Price Snapshotting</h4>
+            <p>Product rows are added. The system captures the current price, product name, and SKU into snapshot fields to protect past records from future price updates.</p>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-badge">3</div>
+          <div class="step-content">
+            <h4>Stock Pre-Check & Confirmation (Atomic Transaction)</h4>
+            <p>Upon clicking Confirm, a Prisma transaction checks current stock. If sufficient (`currentStock >= quantity`), stock is decremented and an `OUT` movement is recorded. If stock is insufficient, the operation aborts with a HTTP 400 error.</p>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-badge">4</div>
+          <div class="step-content">
+            <h4>Challan Cancellation & Inventory Restoration</h4>
+            <p>If a confirmed delivery is cancelled, an atomic transaction restores the exact quantities back into product stock and logs an `IN` stock movement record.</p>
+          </div>
+        </div>
+      </div>
+
+      <h3>B. Stock Movement & Inventory Audit Process:</h3>
+      <div class="process-box">
+        <div class="process-step">
+          <div class="step-badge">1</div>
+          <div class="step-content">
+            <h4>Manual Stock Adjustment</h4>
+            <p>Warehouse personnel can record direct `IN` (vendor restocking) or `OUT` (damaged goods/returns) movements with required audit reasons.</p>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-badge">2</div>
+          <div class="step-content">
+            <h4>Automated Low-Stock Triggering</h4>
+            <p>System automatically calculates `currentStock <= minimumStock` and surfaces visual alerts across Dashboard, Product Catalog, and Inventory screens.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 5: RBAC MATRIX -->
+    <div class="section" id="sec5">
+      <h2><span class="sec-num">5.</span> Role-Based Access Control (RBAC) Matrix</h2>
+      <p>Authorization is enforced dual-layer: the Frontend dynamically hides non-permitted controls, while the Backend Express middleware enforces HTTP 403 Forbidden responses.</p>
+      
+      <table>
+        <thead>
+          <tr>
+            <th>Module / Operation</th>
+            <th>ADMIN</th>
+            <th>SALES</th>
+            <th>WAREHOUSE</th>
+            <th>ACCOUNTS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>View Dashboard KPIs</td>
+            <td><span class="badge badge-success">Allowed</span></td>
+            <td><span class="badge badge-success">Allowed</span></td>
+            <td><span class="badge badge-success">Allowed</span></td>
+            <td><span class="badge badge-success">Allowed</span></td>
+          </tr>
+          <tr>
+            <td>Create / Edit Customers</td>
+            <td><span class="badge badge-success">Allowed</span></td>
+            <td><span class="badge badge-success">Allowed</span></td>
+            <td><span class="badge badge-warning">Read Only</span></td>
+            <td><span class="badge badge-warning">Read Only</span></td>
+          </tr>
+          <tr>
+            <td>Schedule Customer Follow-ups</td>
+            <td><span class="badge badge-success">Allowed</span></td>
+            <td><span class="badge badge-success">Allowed</span></td>
+            <td><span class="badge badge-warning">Read Only</span></td>
+            <td><span class="badge badge-warning">Read Only</span></td>
+          </tr>
+          <tr>
+            <td>Create / Edit Products</td>
+            <td><span class="badge badge-success">Allowed</span></td>
+            <td><span class="badge badge-warning">Read Only</span></td>
+            <td><span class="badge badge-success">Allowed</span></td>
+            <td><span class="badge badge-warning">Read Only</span></td>
+          </tr>
+          <tr>
+            <td>Record Stock Movements (IN/OUT)</td>
+            <td><span class="badge badge-success">Allowed</span></td>
+            <td><span class="badge badge-warning">Read Only</span></td>
+            <td><span class="badge badge-success">Allowed</span></td>
+            <td><span class="badge badge-warning">Read Only</span></td>
+          </tr>
+          <tr>
+            <td>Create & Confirm Sales Challans</td>
+            <td><span class="badge badge-success">Allowed</span></td>
+            <td><span class="badge badge-success">Allowed</span></td>
+            <td><span class="badge badge-success">Allowed</span></td>
+            <td><span class="badge badge-warning">Read Only</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- SECTION 6: API CONTRACTS -->
+    <div class="section" id="sec6">
+      <h2><span class="sec-num">6.</span> Complete REST API Specifications</h2>
+      <p>All endpoints accept and return JSON. Authenticated endpoints require `Authorization: Bearer &lt;token&gt;` header.</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>HTTP Method</th>
+            <th>Endpoint Path</th>
+            <th>Description</th>
+            <th>Authorized Roles</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>POST</td><td><code>/api/auth/login</code></td><td>Authenticate user credentials & issue JWT token</td><td>Public</td></tr>
+          <tr><td>GET</td><td><code>/api/auth/me</code></td><td>Retrieve profile of authenticated user</td><td>All Roles</td></tr>
+          <tr><td>GET</td><td><code>/api/dashboard/summary</code></td><td>Fetch aggregate high-level metrics</td><td>All Roles</td></tr>
+          <tr><td>GET</td><td><code>/api/dashboard/details</code></td><td>Fetch recent activity tables</td><td>All Roles</td></tr>
+          <tr><td>GET</td><td><code>/api/customers</code></td><td>Search & list customers with filters</td><td>All Roles</td></tr>
+          <tr><td>GET</td><td><code>/api/customers/:id</code></td><td>Fetch customer profile, follow-ups & challans</td><td>All Roles</td></tr>
+          <tr><td>POST</td><td><code>/api/customers</code></td><td>Create new customer profile</td><td>Admin, Sales</td></tr>
+          <tr><td>PUT</td><td><code>/api/customers/:id</code></td><td>Update existing customer profile</td><td>Admin, Sales</td></tr>
+          <tr><td>GET</td><td><code>/api/followups</code></td><td>List all customer follow-up entries</td><td>All Roles</td></tr>
+          <tr><td>POST</td><td><code>/api/followups</code></td><td>Record new customer follow-up entry</td><td>Admin, Sales</td></tr>
+          <tr><td>GET</td><td><code>/api/products</code></td><td>List product catalog</td><td>All Roles</td></tr>
+          <tr><td>POST</td><td><code>/api/products</code></td><td>Add new product item</td><td>Admin, Warehouse</td></tr>
+          <tr><td>PUT</td><td><code>/api/products/:id</code></td><td>Update existing product catalog details</td><td>Admin, Warehouse</td></tr>
+          <tr><td>GET</td><td><code>/api/products/low-stock</code></td><td>Fetch products at or below alert stock threshold</td><td>Admin, Warehouse, Accounts</td></tr>
+          <tr><td>GET</td><td><code>/api/products/stock/movements</code></td><td>Fetch master audit log of stock movements</td><td>All Roles</td></tr>
+          <tr><td>POST</td><td><code>/api/products/:id/stock</code></td><td>Log manual stock adjustment (IN/OUT)</td><td>Admin, Warehouse</td></tr>
+          <tr><td>GET</td><td><code>/api/challans</code></td><td>List delivery challans</td><td>All Roles</td></tr>
+          <tr><td>GET</td><td><code>/api/challans/:id</code></td><td>Fetch delivery challan details with line items</td><td>All Roles</td></tr>
+          <tr><td>POST</td><td><code>/api/challans</code></td><td>Create draft delivery challan</td><td>Admin, Sales, Warehouse</td></tr>
+          <tr><td>POST</td><td><code>/api/challans/:id/items</code></td><td>Add line item snapshot to draft challan</td><td>Admin, Sales, Warehouse</td></tr>
+          <tr><td>POST</td><td><code>/api/challans/:id/confirm</code></td><td>Confirm challan & deduct inventory stock</td><td>Admin, Sales, Warehouse</td></tr>
+          <tr><td>POST</td><td><code>/api/challans/:id/cancel</code></td><td>Cancel challan & restore inventory stock</td><td>Admin, Sales, Warehouse</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SECTION 7: PRODUCTION SETUP -->
+    <div class="section" id="sec7">
+      <h2><span class="sec-num">7.</span> Production Deployment & Infrastructure</h2>
+
+      <h3>Live Production Endpoints:</h3>
+      <ul>
+        <li><strong>Frontend Application:</strong> <a href="https://mini-erp-crm-phi.vercel.app">https://mini-erp-crm-phi.vercel.app</a> (Hosted on Vercel CDN)</li>
+        <li><strong>Backend REST API:</strong> <a href="https://mini-erp-crm-backend-rf4i.onrender.com">https://mini-erp-crm-backend-rf4i.onrender.com</a> (Hosted on Render)</li>
+        <li><strong>PostgreSQL Database:</strong> Neon Cloud PostgreSQL Serverless cluster</li>
+      </ul>
+
+      <h3>Production Environment Variables Configured:</h3>
+      <div class="code-block">
+# Render Backend Environment Variables
+DATABASE_URL="postgresql://neondb_owner:npg_VoNi4TCm8XYt@ep-cold-leaf-aytf7o1y.c-5.us-east-2.aws.neon.tech/neondb?sslmode=require"
+JWT_SECRET="mini-erp-secret-key-2026-production"
+PORT=5000
+FRONTEND_URL="https://mini-erp-crm-phi.vercel.app"
+
+# Vercel Frontend Environment Variables
+VITE_API_URL="https://mini-erp-crm-backend-rf4i.onrender.com/api"
+      </div>
+    </div>
+
+    <!-- SECTION 8: TEST CREDENTIALS -->
+    <div class="section" id="sec8">
+      <h2><span class="sec-num">8.</span> Demo Test Credentials</h2>
+      <p>All pre-seeded demo accounts share the universal development password: <code>password123</code></p>
+      
+      <table>
+        <thead>
+          <tr>
+            <th>Role</th>
+            <th>Email</th>
+            <th>Password</th>
+            <th>Primary Access Scope</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Admin</strong></td>
+            <td><code>admin@erp.com</code></td>
+            <td><code>password123</code></td>
+            <td>Full system control & configuration</td>
+          </tr>
+          <tr>
+            <td><strong>Sales</strong></td>
+            <td><code>sales@erp.com</code></td>
+            <td><code>password123</code></td>
+            <td>Customer CRM, follow-ups, draft & confirm challans</td>
+          </tr>
+          <tr>
+            <td><strong>Warehouse</strong></td>
+            <td><code>warehouse@erp.com</code></td>
+            <td><code>password123</code></td>
+            <td>Product catalog, stock IN/OUT adjustments, confirm challans</td>
+          </tr>
+          <tr>
+            <td><strong>Accounts</strong></td>
+            <td><code>accounts@erp.com</code></td>
+            <td><code>password123</code></td>
+            <td>Read-only financial and audit reporting</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SECTION 9: ASSUMPTIONS & LIMITATIONS -->
+    <div class="section" id="sec9">
+      <h2><span class="sec-num">9.</span> System Assumptions & Limitations</h2>
+      <ul>
+        <li><strong>Single-Tenant Architecture:</strong> The current system operates for one organization. Multi-tenancy isolation can be added via organization ID scoping.</li>
+        <li><strong>Client-Side Session Termination:</strong> JWT tokens operate on stateless verification. Token invalidation on logout is handled client-side by purging local storage.</li>
+        <li><strong>Standard Web Delivery Formats:</strong> Print/PDF exports leverage CSS3 print stylesheets (`@media print`) rendering clean delivery challan invoices.</li>
+      </ul>
+    </div>
+
+  </div>
+
+</body>
+</html>
