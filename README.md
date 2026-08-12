@@ -83,5 +83,4 @@ npm run dev
 docker compose up --build
 ```
 
-*Detailed technical documentation is available in `DOCUMENTATION.html` and `PROJECT_DOCUMENTATION.md`.*  
 *Postman API collection is included in `postman_collection.json`.*
